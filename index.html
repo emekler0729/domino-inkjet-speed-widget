@@ -1,0 +1,172 @@
+<html>
+    <head>
+        <title>Domino / PrintPack Speed Calculator Widget</title>
+        <link href="styles/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <img src="images/logo-notext.svg">
+            <div class="navbar__header">Inkjet Speed Calculator</div>
+        </nav>
+        <div class="container">
+            <section>
+                <h2 class="section__header">Below is an example of what your print could like</h2>
+                <h3 class="section__subheader">There are a couple of things that are important to note: </h3>
+                <span class="section__list">
+                    <ul>
+                        <li>This is a representative font -- it might not match what's on our printer exactly.</li>
+                        <li>The box represents the space available on your product for printing. It is fixed at 2 inches high.</li>
+                        <li>This represents the performance an A400CP unit running 1L07HS60 Raster<br> Talk to your Domino Account Manager for an example of what that looks like.</li>
+                        <li>The dots in this demo can get wider & taller... that's not the case with real printers. While the calculations are correct an actual code could be a lot 
+                            less readable at high speeds because the dots would be far apart. Use samples to confirm code appearance.</li>
+                    </ul>
+                </span>
+            </section>
+            <div id="print-area">
+                <div id="print"></div>
+            </div>
+            <section>
+                <h2 class="section__header">Try changing the application parameters!</h2>
+                <div id="controls">
+                    <label><span class="text--bold">Length of Print Area: </span><input id="length" type="number"> inches</label>
+                    <label><span class="text--bold">Number of Characters: </span><input id="characters" type="number"></label>
+                    <label><span class="text--bold">Printer Speed: </span><input id="stroke-rate" type="range" min="400"> strokes per second</label>
+                    <label><span class="text--bold">Line's Linear Speed: </span><input id="speed" type="number"> feet per minute</label>
+                </div>
+            </section>
+        </div>        
+        <script>
+            /* Notes to self: 1L07HS60 min height = 3.0mm, max height = 5.2mm */
+            // At 5.2mm height, 34 strokes / in for this font
+            const lengthInput = document.getElementById('length');
+            const characterInput = document.getElementById('characters');
+            const speedInput = document.getElementById('speed');
+            const strokeRateInput = document.getElementById('stroke-rate');
+            const printDisplay = document.getElementById('print');
+
+            // _()_ (not used)
+            const parameters = {
+                printAreaLength: 3.5,                                                   // Default print area length of 3.5 inches
+                numberOfCharacters: 50,                                                 // Default number of characters 50
+                displayString: "4TNWB6J1jzE1VCnfId7tiYWV4JwPVMtKzSSTSRexWBxOZ6Q4hP",    // Default display string
+                _printerModel_: 'A400CP',                                               // Printer Type;
+                _raster_: '1L07HS60',                                                   // Raster
+                _characterHeight_: '5.2mm',                                             // Character height (changing impacts display width)
+                maxStrokeRate: 9142,                                                    // Max stroke rate of raster (currently fixed)
+                strokeRate: this.maxStrokeRate,
+                linearSpeed: 500,                                                       // Speed in feet per minute
+                charactersPerInch: this.strokeRate/6.0/(this.linearSpeed/60*12),
+                strokesPerChar: 6,
+                strokesPerInch: this.charactersPerInch * this.strokesPerChar,
+                scaleFactor: 1/(this.strokesPerInch / 34.0)
+            }
+            parameters.strokeRate = parameters.maxStrokeRate;
+            parameters.charactersPerInch = parameters.strokeRate/6.0/(parameters.linearSpeed/60*12.0);
+            parameters.strokesPerInch = parameters.charactersPerInch * parameters.strokesPerChar;
+            parameters.scaleFactor = 1/(parameters.strokesPerInch / 34.0);
+
+            /*
+                data = {
+                    application: {
+                        printAreaLength
+                        numberOfChracters
+                        displayString
+                        printer {
+                            raster {
+                                minHeight
+                                maxHeight
+                                maxStrokeRate
+                                strokesPerChar
+                            }
+                            characterHeight
+                            strokeRate
+                        }
+                        linearSpeed
+                        charactersPerInch
+                        strokesPerInch
+                    }
+                    display {
+                        scaleFactor
+                        actualStrokePerInchAtHeight
+                    }
+                }
+            */
+
+            function initializeDisplay() {
+                lengthInput.placeholder = parameters.printAreaLength;
+                characterInput.placeholder = parameters.numberOfCharacters;
+                strokeRateInput.value = strokeRateInput.max = parameters.maxStrokeRate;
+                speedInput.placeholder = parameters.linearSpeed;
+            }
+
+            function updateDisplay() {
+                document.documentElement.style.setProperty('--length', `${parameters.printAreaLength}in`);
+                printDisplay.textContent = parameters.displayString;
+                document.documentElement.style.setProperty('--scale', parameters.scaleFactor);
+                console.log(`The stroke rate is ${parameters.strokeRate} strokes per second.`);
+                console.log(`The number of characters per inch is ${parameters.charactersPerInch}.`)
+            }
+
+            function updateLength() {
+                parameters.printAreaLength = this.valueAsNumber;
+                updateDisplay();
+            }
+
+            // UPDATE THIS FUNCTION SO THAT IT DOESN'T GENERATE A NEW STRING
+            // BUT GROWS OR SHRINKS THE EXISTING STRING INSTEAD
+            function updateCharacters() {
+                parameters.numberOfCharacters = this.valueAsNumber;
+                
+                // Generate characters
+                function getRandomString(length) {
+                    function getRandomCharacter() {
+                        const validCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabdefghijklmnopqrstuvwxyz0123456789"
+                        return validCharacters.charAt(Math.floor(Math.random() * validCharacters.length))
+                    }
+
+                    let result = '';
+
+                    for(let i = 0; i < length; i++) {
+                        result += getRandomCharacter();
+                    }
+
+                    return result;
+                }
+                parameters.displayString = getRandomString(parameters.numberOfCharacters);
+
+                // Display the string
+                updateDisplay();
+            }
+
+            function updateStrokeRate() {
+                parameters.strokeRate = this.valueAsNumber;
+                
+                parameters.charactersPerInch = parameters.strokeRate/parameters.strokesPerChar/(parameters.linearSpeed/60*12);
+                parameters.strokesPerInch = parameters.charactersPerInch * 6;
+                parameters.scaleFactor = 1/(parameters.strokesPerInch / 34.0);
+
+                updateDisplay();
+            }
+
+
+            function updateSpeed() {
+                parameters.linearSpeed = this.valueAsNumber;
+                
+                parameters.charactersPerInch = parameters.strokeRate/parameters.strokesPerChar/(parameters.linearSpeed/60*12);
+                parameters.strokesPerInch = parameters.charactersPerInch * 6;
+                parameters.scaleFactor = 1/(parameters.strokesPerInch / 34.0);
+
+                updateDisplay();
+            }
+            
+            lengthInput.addEventListener('change', updateLength);
+            characterInput.addEventListener('change', updateCharacters);
+            strokeRateInput.addEventListener('change', updateStrokeRate);
+            speedInput.addEventListener('change', updateSpeed);
+
+            initializeDisplay();
+            updateDisplay();
+        </script>
+
+    </body>
+</html>

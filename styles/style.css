@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'Dot Matrix';
+    src: 
+        url('../fonts/002250-dot-35.ttf')
+        format('truetype');
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Gill Sans MT', sans-serif;
+}
+.navbar {
+    background-color: rgb(0, 63, 105);
+    color: white;
+    padding: 10px;
+    display: flex;
+}
+.navbar__header {
+    font-size: xx-large;
+    margin-left: 20px;
+}
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+}
+.section__header {
+    margin-bottom: 20px;
+}
+.section__subheader {
+    margin-bottom: 10px;
+}
+.section__list {
+    position: relative;
+    left: 20px;
+    width: 490px
+}
+.section__list li {
+    margin-bottom: 5px;
+}
+#print-area {
+    height: 2in;
+    width: var(--length);
+    border: 1px black solid;
+    position: relative;
+    margin: auto;
+
+}
+#print {
+    font-family: 'Dot Matrix', monospace;
+    font-size: 5.2mm;
+    position: relative;
+    top: 45%;
+    left: 2px;
+    transform: scaleX(var(--scale));
+    transform-origin: left;
+}
+label {display: block}
