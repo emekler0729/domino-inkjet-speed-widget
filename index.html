@@ -15,10 +15,10 @@
                 <span class="section__list">
                     <ul>
                         <li>This is a representative font -- it might not match what's on our printer exactly.</li>
-                        <li>The box represents the space available on your product for printing. It is fixed at 2 inches high.</li>
+                        <li>The box represents the space available on your product for printing. </li>
+                        <li>The dots in this demo can get wider & taller... that's not the case with real printers. While the calculations are correct, an actual code could be a lot 
+                            less readable at high speeds because the dots would be far apart. <span class="text--bold">Use samples to confirm code appearance.</span></li>
                         <li>This represents the performance an A400CP unit running 1L07HS60 Raster<br> Talk to your Domino Account Manager for an example of what that looks like.</li>
-                        <li>The dots in this demo can get wider & taller... that's not the case with real printers. While the calculations are correct an actual code could be a lot 
-                            less readable at high speeds because the dots would be far apart. Use samples to confirm code appearance.</li>
                     </ul>
                 </span>
             </section>
@@ -35,7 +35,13 @@
                 </div>
             </section>
             <section>
-                <h2 class="section__header">Application Limits</h2>
+                <h2 class="section__header">Application Parameters</h2>
+                <div id="outputs">
+                    <label>Characters Per Inch <input id="cpi" type="number" disabled></label>
+                    <label>Minimum Label Length <input id="min-length" type="number" disabled> Inches</label>
+                    <label>Maximum Number of Characters <input id="max-chars" type="number" disabled></label>
+                    <label>Maximum Line Speed <input id="max-speed" type="number" disabled> Feet Per Minute</label>
+                </div>
             </section>
         </div>        
         <script src="scripts/script.js"></script>
