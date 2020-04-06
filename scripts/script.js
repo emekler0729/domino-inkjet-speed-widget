@@ -150,7 +150,6 @@ function updateDisplay() {
     printDisplay.textContent = parameters.displayString;
     document.documentElement.style.setProperty('--scale', parameters.scaleFactor);
     outputs.forEach(output => output.value = parameters[output.id]);
-    console.log(parameters.printAreaLength < parameters.minimumLength)
     if (parameters.printAreaLength < parameters.minimumLength
         || parameters.numberOfCharacters > parameters.maximumNumberOfCharacters
         || parameters.linearSpeed > parameters.maximumLinearSpeed ) {
