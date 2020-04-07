@@ -1,48 +1,57 @@
 <html>
     <head>
-        <title>Domino / PrintPack Speed Calculator Widget</title>
+        <title>Domino Multi-Lane Promotional Printing Calculator</title>
         <link href="styles/style.css" rel="stylesheet">
     </head>
     <body>
         <nav class="navbar">
             <img src="images/logo-notext.svg">
-            <div class="navbar__header">Inkjet Speed Calculator</div>
+            <div class="navbar__header">Multi-Lane Promotional Printing Calculator</div>
         </nav>
-        <div class="container">
-            <section>
-                <h2 class="section__header">Below is an example of what your print could look like</h2>
-                <h3 class="section__subheader">There are a couple of things that are important to note: </h3>
+        <div class="wrapper">
+            <div class="tile">
+                <h2 class="section__header">Disclaimers:</h2>
                 <span class="section__list">
                     <ul>
-                        <li>This is a representative font -- it might not match what's on our printer exactly.</li>
+                        <li>This is a representative font -- it will not match what's on our printer exactly.</li>
                         <li>The box represents the space available on your product for printing. </li>
-                        <li>The dots in this demo are stretched wider... that's not the case with real printers. While the calculations are correct, an actual code could be a lot 
-                            less readable at high speeds because the dots would be far apart. <span class="text--bold">Use samples to confirm code appearance.</span></li>
+                        <li>This solution requires 5.5ms of delay in between prints which dictates the minimum gap.</li>
+                        <li>In this demo, the 'dots' get wider as the print gets wider, that's not the case with real printers. <span class="text--bold">Use samples to confirm code appearance.</span></li>
+                        <li>It is very difficult to determine an exact dry time. This is only a recommended guideline that will need to be verified on-site. Dry time can be reduced with forced and/or heated air.</li>
                         <li>This represents the performance of an A400CP unit running 1L07HS60 Raster. Talk to your Domino Account Manager for an example of what that looks like.</li>
                     </ul>
                 </span>
-            </section>
-            <div id="print-area">
-                <div id="print"></div>
             </div>
-            <section>
-                <h2 class="section__header">Try changing the application parameters!</h2>
+            <div class="tile" id="image">
+                <h2 class="section_header">Character Per Inch Example</h2>
+                <img src="images/cpi-example.jpg">
+                <p>An example of 15, 10, and 5 (from top to bottom) cpi. 10 cpi is considered industry standard.</p>
+            </div>
+            <div id="print-area">
+                <div id="print"><div id="gap"></div></div>
+            </div>
+            <div class="tile" id="input">
+                <h2 class="section__header">Inputs</h2>
                 <div id="controls">
-                    <label><span class="text--bold">Length of Print Area: </span><input id="length" type="number"> inches</label>
-                    <label><span class="text--bold">Number of Characters: </span><input id="characters" type="number"></label>
-                    <label><span class="text--bold">Printer Speed: </span><input id="stroke-rate" type="range" min="400"> strokes per second</label>
-                    <label><span class="text--bold">Line's Linear Speed: </span><input id="speed" type="number"> feet per minute</label>
+                    <label>Repeat Length: <input id="length" type="number"> inches</label>
+                    <label>Number of Characters: <input id="characters" type="number"></label>
+                    <label>Printer Speed: <input id="stroke-rate" type="range" min="400"> strokes per second</label>
+                    <label>Line Speed: <input id="speed" type="number"> feet per minute</label>
+                    <label>Minimum Dry Time: <input id="dry-time" type="number"> seconds</label>
+                    <label>Distance Until Roller <input id="distance" type="number"> inches</label>
                 </div>
-            </section>
-            <section>
-                <h2 class="section__header">Application Parameters</h2>
+            </div>
+            <div class="tile" id="output">
+                <h2 class="section__header">Outputs</h2>
                 <div id="outputs">
                     <label>Characters Per Inch <input id="cpi" type="number" disabled></label>
-                    <label>Minimum Label Length <input id="min-length" type="number" disabled> Inches</label>
+                    <label>Minimum Repeat Length <input id="min-length" type="number" disabled> Inches</label>
                     <label>Maximum Number of Characters <input id="max-chars" type="number" disabled></label>
-                    <label>Maximum Line Speed <input id="max-speed" type="number" disabled> Feet Per Minute</label>
+                    <label>Max Printer Speed <input id="max-speed" type="number" disabled> Feet Per Minute</label>
+                    <label>Max Dry Speed <input id="max-dry" type ="number" disabled> Feet Per Minute</label>
+                    <label>Recommended Roller Distance <input id="min-distance" type="number" disabled> Inches</label>
                 </div>
-            </section>
+            </div>
         </div>        
         <script src="scripts/script.js"></script>
     </body>

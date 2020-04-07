@@ -20,18 +20,31 @@
     display: flex;
 }
 .navbar__header {
-    font-size: xx-large;
+    font-size: 36px;
     margin-left: 20px;
 }
-.container {
-    max-width: 1200px;
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas: 
+        "display display display display"
+        "image input output disclaimer";
+    max-width: 99%;
     margin: auto;
+    overflow: hidden;
 }
-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px auto;
+.tile {
+    padding: 20px;
+}
+#image {
+    grid-area: image;
+}
+#input {
+    grid-area: input;
+}
+#output {
+    grid-area: output;
 }
 .section__header {
     margin-bottom: 20px;
@@ -55,8 +68,9 @@ section {
     margin: auto;
     display: flex;
     align-items: center;
-
+    grid-area: display;
 }
+
 .print--invalid {
     color: red;
 }
@@ -68,4 +82,13 @@ section {
     transform: scaleX(var(--scale));
     transform-origin: left;
 }
-label {display: block}
+#gap {
+    display: inline;
+    height: 1mm;
+    width: 2in;
+    border: 3px green dashed;
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+}
