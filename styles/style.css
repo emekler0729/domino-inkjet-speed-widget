@@ -83,8 +83,8 @@
     transform-origin: left;
 }
 #gap {
-    display: inline;
-    height: 1mm;
+    display: inline-block;
+    height: 5.2mm;
     width: 2in;
     border: 3px green dashed;
 }
